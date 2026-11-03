@@ -1,0 +1,286 @@
+
+/* =================================
+   QUICKNOTES - MAIN DESIGN
+================================= */
+
+:root {
+    --primary: #7563d9;
+    --primary-dark: #5c4ac2;
+    --secondary: #f2a7b8;
+    --background: #f8f7fc;
+    --surface: #ffffff;
+    --text: #292641;
+    --muted: #77758b;
+    --border: #e9e6f2;
+    --success: #16865b;
+    --success-bg: #e7f7ef;
+    --error: #c43d50;
+    --error-bg: #fff0f1;
+    --shadow: 0 12px 35px rgba(61, 48, 115, 0.08);
+}
+
+/* General page styling */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%, #eee9ff 0, transparent 30%),
+        radial-gradient(circle at 90% 85%, #ffe9ef 0, transparent 28%),
+        var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 35px 20px;
+}
+
+/* Header */
+
+header {
+    max-width: 1000px;
+    margin: 0 auto 35px;
+    padding: 40px 30px;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, #7563d9, #a18be9, #d18bb9);
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(117, 99, 217, 0.22);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before,
+header::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+header::before {
+    width: 180px;
+    height: 180px;
+    top: -85px;
+    left: -45px;
+}
+
+header::after {
+    width: 140px;
+    height: 140px;
+    bottom: -75px;
+    right: -25px;
+}
+
+header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Main layout */
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* Content cards */
+
+section {
+    background: var(--surface);
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+section h2 {
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+/* Buttons */
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    background: var(--primary);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Status messages */
+
+#status {
+    margin: 15px 0;
+    padding: 11px 14px;
+    border-radius: 9px;
+    color: var(--muted);
+    background: #f4f2fa;
+    font-size: 0.9rem;
+}
+
+#status.status-success {
+    color: var(--success);
+    background: var(--success-bg);
+}
+
+#status.status-error {
+    color: var(--error);
+    background: var(--error-bg);
+}
+
+#status.status-loading {
+    color: var(--primary-dark);
+    background: #f0edff;
+}
+
+/* Notes list */
+
+#notes-list {
+    list-style: none;
+    margin-top: 18px;
+    display: grid;
+    gap: 14px;
+}
+
+#notes-list li {
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    background: #fdfcff;
+    overflow-wrap: anywhere;
+}
+
+#notes-list li h3 {
+    margin-bottom: 7px;
+    font-size: 1.05rem;
+    color: var(--text);
+}
+
+#notes-list li p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    white-space: pre-wrap;
+}
+
+#notes-list li button {
+    margin-top: 12px;
+    padding: 8px 13px;
+    background: #fff0f1;
+    color: var(--error);
+    font-size: 0.85rem;
+}
+
+#notes-list li button:hover:not(:disabled) {
+    background: #ffdcdf;
+}
+
+/* Form */
+
+#note-form {
+    display: grid;
+    gap: 18px;
+}
+
+#note-form div {
+    display: grid;
+    gap: 7px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fdfcff;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(117, 99, 217, 0.12);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#submit-btn {
+    width: 100%;
+    margin-top: 3px;
+}
+
+/* Keyboard accessibility */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(117, 99, 217, 0.35);
+    outline-offset: 2px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 700px) {
+    body {
+        padding: 20px 14px;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 32px 20px;
+    }
+
+    section {
+        padding: 22px;
+    }
+}

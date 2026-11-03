@@ -20,6 +20,7 @@ async function request(url, options = {}) {
     return response.json();
 }
 
+
 function renderNote(note) {
     // Create the list item
     const listItem = document.createElement("li");
@@ -32,12 +33,57 @@ function renderNote(note) {
     const body = document.createElement("p");
     body.textContent = note.body;
 
-    // Place the title and content inside the list item
-    listItem.append(title, body);
+    // Create a Delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+
+    // Connect the button to the delete function
+    deleteButton.addEventListener("click", () => {
+        deleteNote(note.id, listItem, deleteButton);
+    });
+
+    // Place all elements inside the list item
+    listItem.append(title, body, deleteButton);
 
     return listItem;
 }
 
+
+async function deleteNote(noteId, listItem, deleteButton) {
+    // Disable the button while the request is running
+    deleteButton.disabled = true;
+    showStatus("Deleting note...", "status-loading");
+
+    try {
+        // Send a DELETE request to the API
+        await request(`${API_URL}/${noteId}`, {
+            method: "DELETE"
+        });
+
+        // Remove the note from the displayed list
+        listItem.remove();
+
+        showStatus(
+            `Note ${noteId} deleted successfully.`,
+            "status-success"
+        );
+
+        // JSONPlaceholder simulates DELETE; it does not permanently
+        // remove the note from its sample dataset.
+
+    } catch (error) {
+        showStatus(
+            "We couldn't delete this note. Please try again.",
+            "status-error"
+        );
+        console.error(error);
+
+    } finally {
+        // Re-enable the button
+        deleteButton.disabled = false;
+    }
+}
 
 function showStatus(message, type = "") {
     statusMessage.textContent = message;
